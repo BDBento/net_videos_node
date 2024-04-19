@@ -1,0 +1,21 @@
+{
+  "name": "node",
+  "version": "1.0.0",
+  "description": "modelo de sistema para estudo",
+  "main": "appi.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "bbento",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.19.2",
+    "express-handlebars": "^4.0.6",
+    "handlebars": "^4.7.8",
+    "mongoose": "^8.3.0",
+    "mysql2": "^3.9.4",
+    "sequelize": "^6.37.3"
+  }
+}
