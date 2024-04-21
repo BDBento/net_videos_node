@@ -124,13 +124,23 @@
     background-color: #2f39c7;
 }
 
-.botao-cadastro {
+.botao-cadastro  input{
     background-color: #2fc748ab;
     border: none;
     padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
-    margin-bottom: 20px;
+
+}
+input[type="submit"] {
+    background-color: #2fc748ab;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
 }
 
 .botao-cadastro a {
