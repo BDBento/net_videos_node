@@ -1,7 +1,12 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
 const app = express();
-const Sequelize = require('sequelize');
+
+// Importando os models
+const Usuario = require('./models/Usuario');
+const Filme = require('./models/Filme');
+const Categoria = require('./models/Categoria');
+
 const bodyParser = require('body-parser');
 
 // Define o diretório 'public' como o diretório para arquivos estáticos
@@ -18,11 +23,7 @@ app.set('view engine', 'handlebars');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-//conecxao com o banco de dados
-const sequelize = new Sequelize("filmes", "root", "", {
-  host: "localhost",
-  dialect: "mysql",
-});
+
 //rotas 
 app.get("/cadastro", function (req, res) {
   res.render("formulario")
@@ -35,15 +36,47 @@ app.get('/', function (req, res) {
   res.render('index');
 });
 
-
 //enviando dados do formulario
 app.post('/criaUsuario', function (req, res) {
-  req.body.nome;
-  req.body.email;
-  req.body.senha;
-  res.send("Usuario criado com sucesso")
-  res.redirect('/login');
+  Usuario.create({
+    nome: req.body.nome,
+    email: req.body.email,
+    senha: req.body.senha,
+    excluido: false,
+  }).then(function () {
+    res.redirect("/login");
+  }).catch(function (erro) {
+    res.send("Erro ao cadastrar usuário: " + erro);
+  });
 });
+//enviando dados do formulario
+
+app.post('/criaFilme', function (req, res) {
+  Filme.create({
+    nome: req.body.nome,
+    genero: req.body.genero,
+    ano: req.body.ano,
+    descricao: req.body.descricao,
+    excluido: false,
+  }).then(function () {
+    res.redirect("/");
+  }).catch(function (erro) {
+    res.send("Erro ao cadastrar filme: " + erro);
+  });
+});
+
+app.post('/criaCategoria', function (req, res) {  
+  Categoria.create({
+    genero: req.body.genero,
+    descricao: req.body.descricao,
+    excluido: false,
+  }).then(function () {
+    res.redirect("/");
+  }).catch(function (erro) {
+    res.send("Erro ao cadastrar categoria: " + erro);
+  });
+}
+);
 
 
 app.listen(8081, function () {
