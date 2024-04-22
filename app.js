@@ -49,7 +49,6 @@ app.post('/criaUsuario', function (req, res) {
     res.send("Erro ao cadastrar usuário: " + erro);
   });
 });
-//enviando dados do formulario
 
 app.post('/criaFilme', function (req, res) {
   Filme.create({
