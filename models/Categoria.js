@@ -1,6 +1,6 @@
 const db = require('./db');
 
-const Categoria = db.sequelize.define('Categoria',{
+const Categoria = db.sequelize.define('categoria',{
     genero:{
         type:db.Sequelize.STRING
     },

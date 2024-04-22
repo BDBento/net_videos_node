@@ -1,0 +1,38 @@
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-image: url("/img/bg_lg.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        header: 100hv;
+    }
+</style>
+<section class="form-cadastro-filme">
+    <form action="/criaFilme" class="form-cadastro-card" method="POST">
+        <h2>Formulario de cadastro de filmes</h2>
+
+        <label for="nome" class="form-cadastro-filme">
+            <input type="text" name="nome" id="nome" placeholder="Nome">
+        </label>
+
+        <label for="genero" class="form-cadastro-filme">
+            <input type="text" placeholder="genero">
+        </label>
+
+        <label for="ano" class="form-cadastro-filme">
+            <input type="date" placeholder="ano">
+        </label>
+
+        <label for="descricao" class="form-cadastro-filme">
+            <input type="text" placeholder="descricao">
+        </label>
+
+        <button class="botao-cadastro">
+            <input type="submit" value="cadastrar">
+        </button>
+
+    </form>
+
+   
+
+</section>

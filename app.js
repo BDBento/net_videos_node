@@ -28,10 +28,13 @@ app.use(bodyParser.json());
 app.get("/cadastro", function (req, res) {
   res.render("formulario")
 });
+app.get("/cadastroFilme", function (req, res) {
+  res.render("filmeForm")
+});
+
 app.get("/login", function (req, res) {
   res.render("login")
 });
-
 app.get('/', function (req, res) {
   res.render('index');
 });
