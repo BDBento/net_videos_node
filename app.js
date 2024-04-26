@@ -55,10 +55,10 @@ app.post('/criaUsuario', function (req, res) {
 
 app.post('/criaFilme', function (req, res) {
   Filme.create({
-    nome: req.body.nome,
-    genero: req.body.genero,
-    ano: req.body.ano,
-    descricao: req.body.descricao,
+    nomeFilme: req.body.nomeFilme,
+    generoFilme: req.body.generoFilme,
+    anoFilme: req.body.anoFilme,
+    descricaoFilme: req.body.descricaoFilme,
     excluido: false,
   }).then(function () {
     res.redirect("/");

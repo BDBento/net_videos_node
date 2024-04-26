@@ -1,19 +1,19 @@
 const db = require('./db');
 
 const Filme = db.sequelize.define('filme',{
-    nome:{
+    nomeFilme:{
         type:db.Sequelize.STRING
     },
     genero:{
         type:db.Sequelize.STRING
     },
-    ano:{
+    anoFilme:{
         type:db.Sequelize.INTEGER
     },
-    descricao:{
+    descricaoFilme:{
         type:db.Sequelize.STRING
     },
-    excluido:{
+    excluidoFilme:{
         type:db.Sequelize.BOOLEAN
     },
     idUsuarioAtualizacao:{
