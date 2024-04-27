@@ -1,0 +1,49 @@
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-image: url("/img/bg_lg.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        header: 100hv;
+    }
+</style>
+
+<section class="lista-filme">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="titulo-filme">Lista de Filmes</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <table>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nome</th>
+                        <th>Categoria</th>
+                        <th>Ano</th>
+                        <th>Descrição</th>
+                        <th class="filme-opc">Opções</th>
+                    </tr>
+                    {{#each filmes}}
+                    <tr>
+                        <td>{{id}}</td>
+                        <td>{{nomeFilme}}</td>
+                        <td>{{categoriaFilme}}</td>
+                        <td>{{anoFilme}}</td>
+                        <td>{{descricaoFilme}}</td>
+                        <td>
+                            <a href="/editaFilme/{{id}}">Editar</a>
+                            <a href="/deletaFilme/{{id}}">Deletar</a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </table>
+            </div>
+        </div>
+    </div>
+   
+</section>
+
+

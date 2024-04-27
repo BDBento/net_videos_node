@@ -71,6 +71,13 @@
 /*-------------------------listar categorias-----------------------------------------*/
 /*-----------------------------------------------------------------------------------*/
 
+.titulo-categoria {
+    color: white;
+    text-align: center;
+    margin: 30px auto;
+}
+
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -78,7 +85,7 @@ table {
     box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.03);
     border-radius: 10px;
     overflow: hidden;
-    margin: 20px auto;
+    margin-bottom: 20px;
 }
 table thead th {
     background-color: #f8f8f8;
@@ -132,7 +139,7 @@ table tbody tr td:last-child a:focus {
     color: #009879;
     text-decoration: underline;
 }
-.categoria-opc{
+.categoria-opc,.filme-opc{
     text-align: right;
 }
 

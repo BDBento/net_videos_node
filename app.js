@@ -7,7 +7,6 @@ const Usuario = require('./models/Usuario');
 const Filme = require('./models/Filme');
 const Categoria = require('./models/Categoria');
 
-
 const bodyParser = require('body-parser');
 
 // Define o diretório 'public' como o diretório para arquivos estáticos
@@ -23,11 +22,20 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //rotas 
+
+app.get('/', function (req, res) {
+  res.render('index');
+});
+
+app.get("/login", function (req, res) {
+  res.render("login")
+});
+
+//rotas de cadastro
+
 app.get("/cadastro", function (req, res) {
   res.render("formulario")
 });
-
-
 
 app.get('/cadastroFilme', async (req, res) => {
   try {
@@ -43,30 +51,34 @@ app.get('/cadastroFilme', async (req, res) => {
 
 });
 
-app.get("/login", function (req, res) {
-  res.render("login")
-});
-app.get('/', function (req, res) {
-  res.render('index');
-});
-
 app.get('/cadastroCategoria', (req, res) => {
   res.render('novaCategoriaForm');
 });
-app.get('/filme', (req, res) => {
 
-  res.render('listaFilmes')
+//rotas de listagem
+
+
+app.get('/filme', async (req, res) => {
+  try {
+    const filmes = await Filme.findAll();
+    const filmesJSON = filmes.map(filme => filme.get({ plain: true }));
+    res.render('listaFilmes', { filmes: filmesJSON });
+  } catch (error) {
+    console.error('Erro ao buscar filmes:', error);
+    res.status(500).send('Erro interno do servidor');
+  }
 });
-app.get('/categoria',async (req, res) => {
-  try{
+
+app.get('/categoria', async (req, res) => {
+  try {
     const categorias = await Categoria.findAll({ where: { excluido: false } });
     const categoriasJSON = categorias.map(categoria => categoria.get({ plain: true }));
     res.render('listaCategorias', { categorias: categoriasJSON });
-  }catch(error){
+  } catch (error) {
     console.error('Erro ao buscar categorias:', error);
     res.status(500).send('Erro interno do servidor');
   }
-   
+
 })
 
 //enviando dados do formulario
