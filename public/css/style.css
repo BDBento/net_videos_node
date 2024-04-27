@@ -68,8 +68,79 @@
 }
 
 /*-----------------------------------------------------------------------------------*/
-/*-------------------------cadastro de filmes-----------------------------------------*/
+/*-------------------------listar categorias-----------------------------------------*/
 /*-----------------------------------------------------------------------------------*/
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.03);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 20px auto;
+}
+table thead th {
+    background-color: #f8f8f8;
+    color: #000;
+    text-align: left;
+    font-weight: bold;
+}
+table th, table td {
+    padding: 12px 15px;
+}
+table tbody tr {
+    border-bottom: 1px solid #f0f0f0;
+}
+table tbody tr:nth-of-type(even) {
+    background-color: #f8f8f8;
+}
+table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
+table tbody tr.active-row td {
+    font-weight: bold;
+}
+table tbody tr:hover {
+    background-color: #f0f0f0;
+}
+table tbody tr td:last-child {
+    text-align: right;
+}
+table tbody tr td:last-child a {
+    margin-right: 15px;
+}
+table tbody tr td:last-child a:last-child {
+    margin-right: 0;
+}
+table tbody tr td:last-child a:hover,
+table tbody tr td:last-child a:active,
+table tbody tr td:last-child a:focus,
+table tbody tr td:last-child a:visited,
+table tbody tr td:last-child a:link {    
+    color: #009879;
+}
+table tbody tr td:last-child a:hover {
+    text-decoration: none;
+}
+table tbody tr td:last-child a:active,
+table tbody tr td:last-child a:focus {
+    color: #009879;
+    text-decoration: underline;
+}
+.categoria-opc{
+    text-align: right;
+}
+
+/*-----------------------------------------------------------------------------------*/
+/*-------------------------cadastro de usuários-----------------------------------------*/
+/*-----------------------------------------------------------------------------------*/
+
+
 
 .form-cadastro {
     height: 86vh;
