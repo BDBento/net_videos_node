@@ -1,0 +1,23 @@
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-image: url("/img/bg_lg.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        header: 100hv;
+    }
+</style>
+
+<h2>Adicionar Nova Categoria</h2>
+
+<form action="/nova-categoria" method="POST">
+    <label for="genero">Gênero:</label>
+    <input type="text" id="genero" name="genero" required>
+
+    <label for="descricao">Descrição:</label>
+    <input type="text" id="descricao" name="descricao" required>
+
+    <input type="hidden" name="idUsuarioAtualizacao" value="1"> <!-- Exemplo: definindo um usuário fixo (ID 1) como autor da atualização -->
+
+    <button type="submit">Salvar Categoria</button>
+</form>

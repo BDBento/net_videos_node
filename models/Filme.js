@@ -4,7 +4,7 @@ const Filme = db.sequelize.define('filme',{
     nomeFilme:{
         type:db.Sequelize.STRING
     },
-    genero:{
+    categoriaFilme:{
         type:db.Sequelize.STRING
     },
     anoFilme:{

@@ -7,31 +7,30 @@
         header: 100hv;
     }
 </style>
-<section class="form-cadastro-filme">
-    <form action="/criaFilme" class="form-cadastro-card" method="POST">
-        <h2>Formulario de cadastro de filmes</h2>
+
+
+<section class="form-cadastro-filme container">
+    <form action="/criaFilme" class="form-cadastro-card-filme" method="POST">
+        <h2>Formulário de Cadastro de Filmes</h2>
         <label for="nomeFilme" class="form-cadastro-filme">
             <input type="text" name="nomeFilme" id="nomeFilme" placeholder="Nome">
         </label>
 
-        <label for="generoFilme" class="form-cadastro-filme">
-            <input type="text" name="generoFilme" id="generoFilme" placeholder="genero">
-        </label>
+        <label for="categoriaFilme">Categoria:</label>
+        <select name="categoriaFilme" id="categoriaFilme">
+            {{#each categorias}}
+                <option value="{{id}}"> {{{genero}}}</option>
+            {{/each}}
+        </select>
 
         <label for="anoFilme" class="form-cadastro-filme">
-            <input type="date" name="anoFilme" id="anoFilme" placeholder="ano">
+            <input type="date" name="anoFilme" id="anoFilme" placeholder="Ano">
         </label>
 
         <label for="descricaoFilme" class="form-cadastro-filme">
-            <input type="text" placeholder="descricaoFilme">
+            <input type="text" name="descricaoFilme" placeholder="Descrição">
         </label>
 
-        <button class="botao-cadastro">
-            <input type="submit" value="cadastrar">
-        </button>
-
+        <button class="botao-cadastro" type="submit">Cadastrar</button>
     </form>
-
-   
-
 </section>
