@@ -126,6 +126,31 @@ app.post('/nova-categoria', async (req, res) => {
   }
 });
 
+app.post('/deletarCategoria', async (req, res) => {
+  const { id } = req.body;
+
+  try {
+    // Busca a categoria no banco de dados pelo ID
+    const categoria = await Categoria.findByPk(id);
+
+    if (!categoria) {
+      return res.status(404).send('Categoria não encontrada');
+    }
+
+    // Atualiza o campo 'excluido' para true
+    categoria.excluido = true;
+
+    // Salva a categoria atualizada no banco de dados
+    await categoria.save();
+
+    // Redireciona para a página de categorias após a exclusão da categoria
+    res.redirect('/categoria');
+  } catch (error) {
+    console.error('Erro ao excluir categoria:', error);
+    res.status(500).send('Erro ao excluir categoria');
+  }
+});
+
 
 app.listen(8081, function () {
   console.log("http://localhost:8081/")

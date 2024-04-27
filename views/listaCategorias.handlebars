@@ -28,8 +28,12 @@
                     <td>{{id}}</td>
                     <td>{{genero}}</td>
                     <td>
-                        <a href="/editaCategoria/{{id}}">Editar</a>
-                        <a href="/deletaCategoria/{{id}}">Deletar</a>
+                       <a href="/editaCategoria/{{id}}">Editar</a>
+                        <form action="/deletarCategoria" method="POST" style="display: inline;">
+                            <input type="hidden" name="id" value="{{id}}">
+                            <button type="submit" class="btn btn-danger">Deletar</button>
+                        </form>
+                    
                     </td>
                 </tr>
                 {{/each}}

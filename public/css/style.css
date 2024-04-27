@@ -71,7 +71,8 @@
 /*-------------------------listar categorias-----------------------------------------*/
 /*-----------------------------------------------------------------------------------*/
 
-.titulo-categoria {
+.titulo-categoria,
+.titulo-filme {
     color: white;
     text-align: center;
     margin: 30px auto;
