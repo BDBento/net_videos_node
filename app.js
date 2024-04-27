@@ -13,10 +13,6 @@ const bodyParser = require('body-parser');
 // Define o diretório 'public' como o diretório para arquivos estáticos
 app.use(express.static('public'));
 
-
-
-
-
 //configuracao do handlebars
 //template engine
 app.engine('handlebars', exphbs());
@@ -26,25 +22,24 @@ app.set('view engine', 'handlebars');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
-
 //rotas 
 app.get("/cadastro", function (req, res) {
   res.render("formulario")
 });
 
+
+
 app.get('/cadastroFilme', async (req, res) => {
+  try {
 
-try {
+    const categorias = await Categoria.findAll({ where: { excluido: false } });
+    const categoriasJSON = categorias.map(categoria => categoria.get({ plain: true }));
+    res.render('filmeForm', { categorias: categoriasJSON });
 
-const categorias = await Categoria.findAll({ where: { excluido: false } });
-const categoriasJSON = categorias.map(categoria => categoria.get({ plain: true }));
-res.render('filmeForm', { categorias: categoriasJSON });
-  
-} catch (error) {
-  console.error('Erro ao buscar categorias:', error);
-  res.status(500).send('Erro interno do servidor');
-}
+  } catch (error) {
+    console.error('Erro ao buscar categorias:', error);
+    res.status(500).send('Erro interno do servidor');
+  }
 
 });
 
@@ -58,15 +53,21 @@ app.get('/', function (req, res) {
 app.get('/cadastroCategoria', (req, res) => {
   res.render('novaCategoriaForm');
 });
-app.get('/filme', (req,res) =>{
-  
+app.get('/filme', (req, res) => {
+
   res.render('listaFilmes')
 });
-app.get('/categoria', (req,res)=>{
-  Categoria.all().then(function(categorias){
-    res.render('listaCategorias',{categorias:categorias})
-  })
-}) 
+app.get('/categoria',async (req, res) => {
+  try{
+    const categorias = await Categoria.findAll({ where: { excluido: false } });
+    const categoriasJSON = categorias.map(categoria => categoria.get({ plain: true }));
+    res.render('listaCategorias', { categorias: categoriasJSON });
+  }catch(error){
+    console.error('Erro ao buscar categorias:', error);
+    res.status(500).send('Erro interno do servidor');
+  }
+   
+})
 
 //enviando dados do formulario
 app.post('/criaUsuario', function (req, res) {
@@ -99,17 +100,17 @@ app.post('/criaFilme', function (req, res) {
 app.post('/nova-categoria', async (req, res) => {
   const { genero, descricao, idUsuarioAtualizacao } = req.body;
   try {
-      // Cria uma nova categoria no banco de dados
-      const novaCategoria = await Categoria.create({
-          genero,
-          descricao,
-          excluido: false,
-          idUsuarioAtualizacao
-      });
-      res.redirect('/categorias'); // Redireciona após a criação da categoria
+    // Cria uma nova categoria no banco de dados
+    const novaCategoria = await Categoria.create({
+      genero,
+      descricao,
+      excluido: false,
+      idUsuarioAtualizacao
+    });
+    res.redirect('/categorias'); // Redireciona após a criação da categoria
   } catch (error) {
-      console.error('Erro ao criar categoria:', error);
-      res.status(500).send('Erro ao criar categoria');
+    console.error('Erro ao criar categoria:', error);
+    res.status(500).send('Erro ao criar categoria');
   }
 });
 
