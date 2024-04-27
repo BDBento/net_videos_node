@@ -15,6 +15,8 @@ app.use(express.static('public'));
 
 
 
+
+
 //configuracao do handlebars
 //template engine
 app.engine('handlebars', exphbs());
@@ -32,20 +34,18 @@ app.get("/cadastro", function (req, res) {
 });
 
 app.get('/cadastroFilme', async (req, res) => {
-  try {
-    // Busca todas as categorias do banco de dados que não foram excluídas
-    const categorias = await Categoria.findAll({ 
-        attributes: ['id', 'genero'],
-        where: { excluido: false } 
-    });
 
-    console.log(categorias)
+try {
 
-    res.render('filmeForm', { categorias });
+const categorias = await Categoria.findAll({ where: { excluido: false } });
+const categoriasJSON = categorias.map(categoria => categoria.get({ plain: true }));
+res.render('filmeForm', { categorias: categoriasJSON });
+  
 } catch (error) {
-    console.error('Erro ao buscar categorias:', error);
-    res.status(500).send('Erro interno ao buscar categorias');
+  console.error('Erro ao buscar categorias:', error);
+  res.status(500).send('Erro interno do servidor');
 }
+
 });
 
 app.get("/login", function (req, res) {
@@ -112,7 +112,6 @@ app.post('/nova-categoria', async (req, res) => {
       res.status(500).send('Erro ao criar categoria');
   }
 });
-
 
 
 app.listen(8081, function () {
