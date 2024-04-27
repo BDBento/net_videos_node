@@ -35,7 +35,10 @@
                         <td>{{descricaoFilme}}</td>
                         <td>
                             <a href="/editaFilme/{{id}}">Editar</a>
-                            <a href="/deletaFilme/{{id}}">Deletar</a>
+                            <form action="/deletarFilme" method="POST" style="display: inline">
+                                <input type="hidden" name="id" value="{{id}}">
+                                <button type="submit" class="btn btn-danger">Deletar</button>
+                            </form>
                         </td>
                     </tr>
                     {{/each}}

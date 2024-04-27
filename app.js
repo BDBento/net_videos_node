@@ -60,7 +60,7 @@ app.get('/cadastroCategoria', (req, res) => {
 
 app.get('/filme', async (req, res) => {
   try {
-    const filmes = await Filme.findAll();
+    const filmes = await Filme.findAll({ where: { excluidoFilme: false } });
     const filmesJSON = filmes.map(filme => filme.get({ plain: true }));
     res.render('listaFilmes', { filmes: filmesJSON });
   } catch (error) {
@@ -101,7 +101,7 @@ app.post('/criaFilme', function (req, res) {
     categoriaFilme: req.body.categoriaFilme,
     anoFilme: req.body.anoFilme,
     descricaoFilme: req.body.descricaoFilme,
-    excluido: false,
+    excluidoFilme: false,
   }).then(function () {
     res.redirect("/");
   }).catch(function (erro) {
@@ -128,21 +128,13 @@ app.post('/nova-categoria', async (req, res) => {
 
 app.post('/deletarCategoria', async (req, res) => {
   const { id } = req.body;
-
   try {
-    // Busca a categoria no banco de dados pelo ID
     const categoria = await Categoria.findByPk(id);
-
     if (!categoria) {
       return res.status(404).send('Categoria não encontrada');
     }
-
-    // Atualiza o campo 'excluido' para true
     categoria.excluido = true;
-
-    // Salva a categoria atualizada no banco de dados
     await categoria.save();
-
     // Redireciona para a página de categorias após a exclusão da categoria
     res.redirect('/categoria');
   } catch (error) {
@@ -150,6 +142,23 @@ app.post('/deletarCategoria', async (req, res) => {
     res.status(500).send('Erro ao excluir categoria');
   }
 });
+app.post('/deletarFilme', async (req, res) => {
+  const { id } = req.body;
+  try {
+    const filme = await Filme.findByPk(id);
+    if (!filme) {
+      return res.status(404).send('Filme não encontrado');
+    }
+    filme.excluidoFilme = true ;
+    await filme.save();
+    // Redireciona para a página de filmes após a exclusão do filme
+    res.redirect('/filme');
+  } catch (error) {
+    console.error('Erro ao excluir filme:', error);
+    res.status(500).send('Erro ao excluir filme');
+  }
+});
+
 
 
 app.listen(8081, function () {
