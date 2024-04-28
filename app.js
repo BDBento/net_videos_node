@@ -1,13 +1,18 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
 const app = express();
+const path = require('path');
 
 // Importando os models
 const Usuario = require('./models/Usuario');
 const Filme = require('./models/Filme');
 const Categoria = require('./models/Categoria');
 
+const multer = require('multer');
+
 const bodyParser = require('body-parser');
+
+
 
 // Define o diretório 'public' como o diretório para arquivos estáticos
 app.use(express.static('public'));
@@ -20,6 +25,20 @@ app.set('view engine', 'handlebars');
 //configuracao do body-parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//configuracao do multer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/uploads')
+  },
+  filename: function (req, file, cb) {
+    const extensao = path.extname(file.originalname); // Obtém a extensão do arquivo original
+    const nomeArquivo = file.fieldname + '-' + Date.now() + extensao; // Nome único do arquivo
+    cb(null, nomeArquivo);
+  }
+})
+const upload = multer({ storage: storage });
+
 
 //rotas 
 
@@ -95,19 +114,29 @@ app.post('/criaUsuario', function (req, res) {
   });
 });
 
-app.post('/criaFilme', function (req, res) {
-  Filme.create({
-    nomeFilme: req.body.nomeFilme,
-    categoriaFilme: req.body.categoriaFilme,
-    anoFilme: req.body.anoFilme,
-    descricaoFilme: req.body.descricaoFilme,
-    excluidoFilme: false,
-  }).then(function () {
-    res.redirect("/");
-  }).catch(function (erro) {
-    res.send("Erro ao cadastrar filme: " + erro);
-  });
+
+app.post('/criaFilme', upload.single('imagemFilme'), async (req, res) => {
+  try {
+    const { nomeFilme, categoriaFilme, anoFilme, descricaoFilme } = req.body;
+    let fileFilme = '';
+    if (req.file) {
+      fileFilme = req.file.filename; 
+    }
+    await Filme.create({
+      nomeFilme: nomeFilme,
+      categoriaFilme: categoriaFilme,
+      fileFilme: fileFilme,
+      anoFilme: anoFilme,
+      descricaoFilme: descricaoFilme,
+      excluidoFilme: false,
+    });
+    res.redirect("/filme"); 
+  } catch (error) {
+    console.error('Erro ao cadastrar filme:', error);
+    res.send("Erro ao cadastrar filme: " + error.message);
+  }
 });
+
 
 app.post('/nova-categoria', async (req, res) => {
   const { genero, descricao, idUsuarioAtualizacao } = req.body;

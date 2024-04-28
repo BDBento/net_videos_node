@@ -21,6 +21,7 @@
                     <tr>
                         <th>Id</th>
                         <th>Nome</th>
+                        <th>Imagem</th>
                         <th>Categoria</th>
                         <th>Ano</th>
                         <th>Descrição</th>
@@ -30,6 +31,7 @@
                     <tr>
                         <td>{{id}}</td>
                         <td>{{nomeFilme}}</td>
+                        <td><img class="imagem-lista" src="/uploads/{{fileFilme}}" alt="foto"/></td>
                         <td>{{categoriaFilme}}</td>
                         <td>{{anoFilme}}</td>
                         <td>{{descricaoFilme}}</td>
@@ -38,7 +40,6 @@
                                 <input type="hidden" name="id" value="{{id}}">
                                 <button type="submit" class="btn btn-primary">Editar</button>
                             </form>
-
                             <form action="/deletarFilme" method="POST" style="display: inline">
                                 <input type="hidden" name="id" value="{{id}}">
                                 <button type="submit" class="btn btn-danger">Deletar</button>

@@ -8,13 +8,15 @@
     }
 </style>
 
-
 <section class="form-cadastro-filme container">
-    <form action="/criaFilme" class="form-cadastro-card-filme" method="POST">
+    <form action="/criaFilme" class="form-cadastro-card-filme" method="POST" enctype="multipart/form-data">
         <h2>Formulário de Cadastro de Filmes</h2>
         <label for="nomeFilme" class="form-cadastro-filme">
             <input type="text" name="nomeFilme" id="nomeFilme" placeholder="Nome">
         </label>
+
+        <label for="imagemFilme">Imagem do Filme:</label>
+        <input type="file" name="imagemFilme" id="imagemFilme" accept="image/*">
 
         <label for="categoriaFilme">Categoria:</label>
         <select name="categoriaFilme" id="categoriaFilme">
