@@ -6,7 +6,6 @@
         background-size: cover;
         header: 100hv;
     }
-
 </style>
 
 <div class="container">
@@ -17,28 +16,31 @@
     </div>
     <div class="row">
         <div class="col-12">
+            <a href="/cadastroCategoria" class="botao-cadastrar">cadastrar</a>
             <table>
                 <tr>
                     <th>Id</th>
                     <th>Genero</th>
+                    <th>descricao</th>
                     <th class="categoria-opc">Opções</th>
                 </tr>
                 {{#each categorias}}
                 <tr>
                     <td>{{id}}</td>
                     <td>{{genero}}</td>
+                    <td>{{descricao}}</td>
                     <td>
-                       <a href="/editaCategoria/{{id}}">Editar</a>
+                        <a href="/editaCategoria/{{id}}">Editar</a>
                         <form action="/deletarCategoria" method="POST" style="display: inline;">
                             <input type="hidden" name="id" value="{{id}}">
                             <button type="submit" class="btn btn-danger">Deletar</button>
                         </form>
-                    
+
                     </td>
                 </tr>
                 {{/each}}
             </table>
-                
+
         </div>
     </div>
 </div>

@@ -154,6 +154,21 @@ table tbody tr td:last-child a:focus {
     border-radius: 10px;
 
 }
+.botao-cadastrar{
+    background-color: #2fc748ab;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    margin-bottom: 20px;
+    float: right;
+}
+.botao-cadastrar:hover{
+    background-color: #2fc748;
+}
 
 /*-----------------------------------------------------------------------------------*/
 /*-------------------------cadastro de usuários-----------------------------------------*/

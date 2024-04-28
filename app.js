@@ -137,6 +137,29 @@ app.post('/criaFilme', upload.single('imagemFilme'), async (req, res) => {
   }
 });
 
+app.post('/criaFilme/novo', upload.single('imagemFilme'), async (req, res) => { 
+  try {
+    const { nomeFilme, categoriaFilme, anoFilme, descricaoFilme } = req.body;
+    let fileFilme = '';
+    if (req.file) {
+      fileFilme = req.file.filename; 
+    }
+    await Filme.create({
+      nomeFilme: nomeFilme,
+      categoriaFilme: categoriaFilme,
+      fileFilme: fileFilme,
+      anoFilme: anoFilme,
+      descricaoFilme: descricaoFilme,
+      excluidoFilme: false,
+    });
+    res.redirect("/cadastroFilme"); 
+  } catch (error) {
+    console.error('Erro ao cadastrar filme:', error);
+    res.send("Erro ao cadastrar filme: " + error.message);
+  }
+});
+
+
 
 app.post('/nova-categoria', async (req, res) => {
   const { genero, descricao, idUsuarioAtualizacao } = req.body;
@@ -148,7 +171,7 @@ app.post('/nova-categoria', async (req, res) => {
       excluido: false,
       idUsuarioAtualizacao
     });
-    res.redirect('/categorias'); // Redireciona após a criação da categoria
+    res.redirect('/categoria'); // Redireciona após a criação da categoria
   } catch (error) {
     console.error('Erro ao criar categoria:', error);
     res.status(500).send('Erro ao criar categoria');
