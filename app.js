@@ -25,6 +25,9 @@ app.set('view engine', 'handlebars');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
+
+
 //configuracao do multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -120,18 +123,17 @@ app.post('/criaUsuario', function (req, res) {
   });
 });
 
+
 app.post('/criaFilme', upload.single('imagemFilme'), async (req, res) => {
   try {
-    const { nomeFilme, anoFilme, descricaoFilme } = req.body;
+    const { nomeFilme, categoriaFilme, anoFilme, descricaoFilme } = req.body;
     let fileFilme = '';
     if (req.file) {
       fileFilme = req.file.filename;
     }
-    // Combine os valores selecionados dos checkboxes em uma única string separada por vírgulas
-    const categoriasSelecionadas = req.body.categoriaFilme.join(',');
     await Filme.create({
       nomeFilme: nomeFilme,
-      categoriaFilme: categoriasSelecionadas,
+      categoriaFilme: categoriaFilme,
       fileFilme: fileFilme,
       anoFilme: anoFilme,
       descricaoFilme: descricaoFilme,
@@ -196,25 +198,58 @@ app.post('/deletarFilme', async (req, res) => {
   }
 });
 
-app.post('/editarCategoria', async (req, res) => {
-  const { id, genero, descricao, idUsuarioAtualizacao } = req.body;
+
+
+
+app.get('/editarCategoria/:id', async (req, res) => {
+  const categoriaId = req.params.id;
+
   try {
-    const categoria = await Categoria.findByPk(id);
-    if (!categoria) {
-      return res.status(404).send('Categoria não encontrada');
-    }
-    categoria.genero = genero;
-    categoria.descricao = descricao;
-    categoria.idUsuarioAtualizacao = idUsuarioAtualizacao;
-    await categoria.save();
-    // Redireciona para a página de categorias após a edição da categoria
-    res.redirect('/categoria');
+      // Busca a categoria com o ID especificado no banco de dados
+      const categoria = await Categoria.findByPk(categoriaId);
+
+      if (!categoria) {
+          return res.status(404).send('Categoria não encontrada');
+      }
+
+      console.log('Categoria encontrada:', categoria); // Verifica no console
+
+      // Renderiza o template 'editarCategoria' passando os dados da categoria
+      res.render('editarCategoria', { categoria });
   } catch (error) {
-    console.error('Erro ao editar categoria:', error);
-    res.status(500).send('Erro ao editar categoria');
+      console.error('Erro ao editar categoria:', error);
+      res.status(500).send('Erro ao editar categoria');
   }
 });
 
+app.post('/editarCategoria/atualizarCategoria/:id', async (req, res) => {
+  const categoriaId = req.params.id;
+  const { genero, descricao, idUsuarioAtualizacao } = req.body;
+
+  try {
+      // Busca a categoria no banco de dados pelo ID
+      const categoria = await Categoria.findByPk(categoriaId);
+
+      if (!categoria) {
+          return res.status(404).send('Categoria não encontrada');
+      }
+
+      // Atualiza os campos da categoria com os novos valores
+      categoria.genero = genero;
+      categoria.descricao = descricao;
+      categoria.idUsuarioAtualizacao = idUsuarioAtualizacao;
+
+      // Salva as alterações no banco de dados
+      await categoria.save();
+
+      // Redireciona para a página de listagem de categorias após a atualização
+      res.redirect('/categorias');
+  } catch (error) {
+      console.error('Erro ao atualizar categoria:', error);
+      res.status(500).send('Erro ao atualizar categoria');
+  }
+
+});
 
 
 app.listen(8081, function () {
