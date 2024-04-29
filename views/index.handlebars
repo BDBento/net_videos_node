@@ -51,6 +51,7 @@
                 width: 100%;
                 border-radius: 10px;
                 height: 450px;
+                object-fit:cover
 
             }
 
@@ -69,6 +70,22 @@
         }
 
         min-width: 100%;
+    }
+
+    .slick-prev,
+    .slick-next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1;
+        background-color: rgba(57, 44, 167, 0.726);
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .slick-next {
+        right: 0;
     }
 </style>
 
@@ -105,25 +122,34 @@
     $(document).ready(function () {
         $('.card-filmes-lista').slick({
             slidesToShow: 3,
-            slidesToScroll: 3,
-            dots: true,
-            arrows: true,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 4000,
+            prevArrow: '<button class="slick-prev btn btn-primary"> <img src="/img/anterior.svg"></button>',
+            nextArrow: '<button class="slick-next btn btn-primary"> <img src="/img/proximo.svg"> </button>',
+
             responsive: [
                 {
                     breakpoint: 768,
                     settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 2
+                        arrows: true,
+                        centerMode: true,
+                        centerPadding: '40px',
+                        slidesToShow: 3
                     }
                 },
                 {
                     breakpoint: 480,
                     settings: {
-                        slidesToShow: 1,
-                        slidesToScroll: 1
+                        arrows: true,
+                        centerMode: true,
+                        centerPadding: '40px',
+                        slidesToShow: 3
                     }
                 }
             ]
         });
+        // Adicionar setas personalizadas
+
     });
 </script>
