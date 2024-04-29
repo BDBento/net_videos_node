@@ -6,41 +6,46 @@
         background-size: cover;
         header: 100hv;
     }
+    
 </style>
 
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-            <h1 class="titulo-categoria">Lista de Categorias</h1>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="titulo-categoria">Lista de Categorias</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <a href="/cadastroCategoria" class="botao-cadastrar">cadastrar</a>
+                <table>
+                    <tr>
+                        <th>Id</th>
+                        <th>Genero</th>
+                        <th>descricao</th>
+                        <th class="categoria-opc">Opções</th>
+                    </tr>
+                    {{#each categorias}}
+                    <tr>
+                        <td>{{id}}</td>
+                        <td>{{genero}}</td>
+                        <td>{{descricao}}</td>
+                        <td>
+                            <form action="/editarCategoria" method="POST" style="display: inline;">
+                                <a href="/editaCategoria/{{id}}">Editar</a>
+                            </form>
+                            <form action="/deletarCategoria" method="POST" style="display: inline;">
+                                <input type="hidden" name="id" value="{{id}}">
+                                <button type="submit" class="btn btn-danger">Deletar</button>
+                            </form>
+
+                        </td>
+                    </tr>
+                    {{/each}}
+                </table>
+
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-12">
-            <a href="/cadastroCategoria" class="botao-cadastrar">cadastrar</a>
-            <table>
-                <tr>
-                    <th>Id</th>
-                    <th>Genero</th>
-                    <th>descricao</th>
-                    <th class="categoria-opc">Opções</th>
-                </tr>
-                {{#each categorias}}
-                <tr>
-                    <td>{{id}}</td>
-                    <td>{{genero}}</td>
-                    <td>{{descricao}}</td>
-                    <td>
-                        <a href="/editaCategoria/{{id}}">Editar</a>
-                        <form action="/deletarCategoria" method="POST" style="display: inline;">
-                            <input type="hidden" name="id" value="{{id}}">
-                            <button type="submit" class="btn btn-danger">Deletar</button>
-                        </form>
-
-                    </td>
-                </tr>
-                {{/each}}
-            </table>
-
-        </div>
-    </div>
-</div>
+</section>

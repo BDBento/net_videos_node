@@ -6,18 +6,38 @@
         background-size: cover;
         header: 100hv;
     }
+
+    .bloco-cadastro-categorias {
+        padding: 20px;
+        margin: 20px auto;
+        border-radius: 10px;
+    }
+    .bloco-cadastro-categorias h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #fff;
+    }
+    .bloco-cadastro-categorias-card {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+    }
 </style>
+<section class="bloco-cadastro-categorias container">
+    <h2>Adicionar Nova Categoria</h2>
+    <div class="bloco-cadastro-categorias-card">
+        <form action="/nova-categoria" method="POST">
+            <label for="genero">Gênero:</label>
+            <input type="text" id="genero" name="genero" required>
 
-<h2>Adicionar Nova Categoria</h2>
+            <label for="descricao">Descrição:</label>
+            <input type="text" id="descricao" name="descricao" required>
 
-<form action="/nova-categoria" method="POST">
-    <label for="genero">Gênero:</label>
-    <input type="text" id="genero" name="genero" required>
+            <input type="hidden" name="idUsuarioAtualizacao" value="1">
+            <!-- Exemplo: definindo um usuário fixo (ID 1) como autor da atualização -->
 
-    <label for="descricao">Descrição:</label>
-    <input type="text" id="descricao" name="descricao" required>
-
-    <input type="hidden" name="idUsuarioAtualizacao" value="1"> <!-- Exemplo: definindo um usuário fixo (ID 1) como autor da atualização -->
-
-    <button type="submit">Salvar Categoria</button>
-</form>
+            <button type="submit">Salvar Categoria</button>
+        </form>
+    </div>
+</section>

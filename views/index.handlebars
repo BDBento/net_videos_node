@@ -1,12 +1,77 @@
 <style>
-    body{
-    font-family: 'Poppins', sans-serif;
-    background-image:url("/img/bg_lg.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    header:100hv;
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-image: url("/img/bg_lg.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        header: 100hv;
+    }
+
+    .home-apresentacao {
+        padding: 20px;
+        margin: 20px auto;
+        border-radius: 10px;
+    }
+
+    .home-apresentacao-texto {
+        text-align: center;
+        margin: 20px auto;
+        color: #fff;
+    }
+
+    .home-apresentacao-texto h1 {
+        font-size: 2em;
+    }
+
+    .home-apresentacao-texto p {
+        font-size: 1.2em;
+    }
+
+    .botao-cadastrar {
+        padding: 10px 20px;
+        background-color: #fff;
+        color: #000;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+
+    .card-filmes-lista {
+        display: flex;
+        justify-content: space-between;
+        max-width: 100%;
+
+        .card-filmes-item {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 10px;
+            max-width: 30%;
+
+            img {
+                width: 100%;
+                border-radius: 10px;
+                height: 450px;
+
+            }
+
+            h3 {
+                font-size: 1.5em;
+                color: #000;
+
+            }
+
+            p {
+                font-size: 1.2em;
+                color: #000;
+                text-align: justify;
+            }
+
+        }
+
+        min-width: 100%;
     }
 </style>
+
 
 <section class="home-apresentacao container">
 
@@ -15,8 +80,50 @@
         <p>Este é um site de exemplo para o curso de Node.js</p>
     </div>
 
-    <div class="home-apresentacao-imagem">
-        <img src="/img/home.jpg" alt="Imagem de apresentação">
+    <div>
+        {{#if usuario}}
+        <a href="/logout" class="botao-cadastrar">Sair</a>
+        {{else}}
+        <a href="/login" class="botao-cadastrar">Entrar</a>
+        {{/if}}
+        <div></div>
+    </div>
+
+    <div class="card-filmes-lista">
+        {{#each filmes}}
+        <div class="card-filmes-item">
+            <img src="/uploads/{{fileFilme}}" alt="Imagem do Filme">
+            <h3>{{nomeFilme}}</h3>
+            <p>{{descricaoFilme}}</p>
+        </div>
+        {{/each}}
     </div>
 
 </section>
+
+<script>
+    $(document).ready(function () {
+        $('.card-filmes-lista').slick({
+            slidesToShow: 3,
+            slidesToScroll: 3,
+            dots: true,
+            arrows: true,
+            responsive: [
+                {
+                    breakpoint: 768,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 2
+                    }
+                },
+                {
+                    breakpoint: 480,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    }
+                }
+            ]
+        });
+    });
+</script>

@@ -13,7 +13,6 @@ const multer = require('multer');
 const bodyParser = require('body-parser');
 
 
-
 // Define o diretório 'public' como o diretório para arquivos estáticos
 app.use(express.static('public'));
 
@@ -42,11 +41,18 @@ const upload = multer({ storage: storage });
 
 //rotas 
 
-app.get('/', function (req, res) {
-  res.render('index');
+app.get('/', async (req, res) => {
+  try {
+    const filmes = await Filme.findAll({ where: { excluidoFilme: false } });
+    const filmesJSON = filmes.map(filme => filme.get({ plain: true }));
+    res.render('index', { filmes: filmesJSON });
+  }catch (error) {
+    console.error('Erro ao buscar filmes:', error);
+    res.status(500).send('Erro interno do servidor');
+  }
 });
 
-app.get("/login", function (req, res) {
+app.get("/login", async (req, res) =>{
   res.render("login")
 });
 
@@ -61,7 +67,7 @@ app.get('/cadastroFilme', async (req, res) => {
 
     const categorias = await Categoria.findAll({ where: { excluido: false } });
     const categoriasJSON = categorias.map(categoria => categoria.get({ plain: true }));
-    res.render('filmeForm', { categorias: categoriasJSON });
+    res.render('novoFilme', { categorias: categoriasJSON });
 
   } catch (error) {
     console.error('Erro ao buscar categorias:', error);
@@ -120,7 +126,7 @@ app.post('/criaFilme', upload.single('imagemFilme'), async (req, res) => {
     const { nomeFilme, categoriaFilme, anoFilme, descricaoFilme } = req.body;
     let fileFilme = '';
     if (req.file) {
-      fileFilme = req.file.filename; 
+      fileFilme = req.file.filename;
     }
     await Filme.create({
       nomeFilme: nomeFilme,
@@ -130,35 +136,12 @@ app.post('/criaFilme', upload.single('imagemFilme'), async (req, res) => {
       descricaoFilme: descricaoFilme,
       excluidoFilme: false,
     });
-    res.redirect("/filme"); 
+    res.redirect("/filme");
   } catch (error) {
     console.error('Erro ao cadastrar filme:', error);
     res.send("Erro ao cadastrar filme: " + error.message);
   }
 });
-
-app.post('/criaFilme/novo', upload.single('imagemFilme'), async (req, res) => { 
-  try {
-    const { nomeFilme, categoriaFilme, anoFilme, descricaoFilme } = req.body;
-    let fileFilme = '';
-    if (req.file) {
-      fileFilme = req.file.filename; 
-    }
-    await Filme.create({
-      nomeFilme: nomeFilme,
-      categoriaFilme: categoriaFilme,
-      fileFilme: fileFilme,
-      anoFilme: anoFilme,
-      descricaoFilme: descricaoFilme,
-      excluidoFilme: false,
-    });
-    res.redirect("/cadastroFilme"); 
-  } catch (error) {
-    console.error('Erro ao cadastrar filme:', error);
-    res.send("Erro ao cadastrar filme: " + error.message);
-  }
-});
-
 
 
 app.post('/nova-categoria', async (req, res) => {
@@ -194,6 +177,7 @@ app.post('/deletarCategoria', async (req, res) => {
     res.status(500).send('Erro ao excluir categoria');
   }
 });
+
 app.post('/deletarFilme', async (req, res) => {
   const { id } = req.body;
   try {
@@ -201,13 +185,32 @@ app.post('/deletarFilme', async (req, res) => {
     if (!filme) {
       return res.status(404).send('Filme não encontrado');
     }
-    filme.excluidoFilme = true ;
+    filme.excluidoFilme = true;
     await filme.save();
     // Redireciona para a página de filmes após a exclusão do filme
     res.redirect('/filme');
   } catch (error) {
     console.error('Erro ao excluir filme:', error);
     res.status(500).send('Erro ao excluir filme');
+  }
+});
+
+app.post('/editarCategoria', async (req, res) => {
+  const { id, genero, descricao, idUsuarioAtualizacao } = req.body;
+  try {
+    const categoria = await Categoria.findByPk(id);
+    if (!categoria) {
+      return res.status(404).send('Categoria não encontrada');
+    }
+    categoria.genero = genero;
+    categoria.descricao = descricao;
+    categoria.idUsuarioAtualizacao = idUsuarioAtualizacao;
+    await categoria.save();
+    // Redireciona para a página de categorias após a edição da categoria
+    res.redirect('/categoria');
+  } catch (error) {
+    console.error('Erro ao editar categoria:', error);
+    res.status(500).send('Erro ao editar categoria');
   }
 });
 

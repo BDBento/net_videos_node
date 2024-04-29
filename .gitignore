@@ -1,0 +1,4 @@
+# Ignore a pasta uploas
+uploads/
+# ignore a pasta node_modules
+node_modules/

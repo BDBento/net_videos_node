@@ -19,6 +19,6 @@ const Usuario = db.sequelize.define('usuario',{
 })
 
 // sincroniazando as models com o banco de dados (executar esta tabela apenas uma vez)
-// Usuario.sync({ force: true });
+//Usuario.sync({ force: true });
   
 module.exports = Usuario;

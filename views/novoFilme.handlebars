@@ -6,11 +6,32 @@
         background-size: cover;
         header: 100hv;
     }
+    .form-cadastro-filme {
+        padding: 20px;
+        margin: 20px auto;
+        border-radius: 10px;
+    }
+    .form-cadastro-filme-titulo {
+        text-align: center;
+        margin: 20px auto;
+        color: #fff;
+    }
+    #categoriaFilme{
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+    }
+    
 </style>
 
-<section class="form-cadastro-filme container">
+<section class="container">
+    <h2 class="form-cadastro-filme-titulo">Cadastro de Filmes</h2>
+    
+
+    <div class="form-cadastro-filme">
     <form action="/criaFilme" class="form-cadastro-card-filme" method="POST" enctype="multipart/form-data">
-        <h2>Formulário de Cadastro de Filmes</h2>
+        
         <label for="nomeFilme" class="form-cadastro-filme">
             <input type="text" name="nomeFilme" id="nomeFilme" placeholder="Nome">
         </label>
@@ -35,4 +56,5 @@
 
         <button class="botao-cadastro" type="submit">Cadastrar</button>
     </form>
+    </div>
 </section>
