@@ -120,17 +120,18 @@ app.post('/criaUsuario', function (req, res) {
   });
 });
 
-
 app.post('/criaFilme', upload.single('imagemFilme'), async (req, res) => {
   try {
-    const { nomeFilme, categoriaFilme, anoFilme, descricaoFilme } = req.body;
+    const { nomeFilme, anoFilme, descricaoFilme } = req.body;
     let fileFilme = '';
     if (req.file) {
       fileFilme = req.file.filename;
     }
+    // Combine os valores selecionados dos checkboxes em uma única string separada por vírgulas
+    const categoriasSelecionadas = req.body.categoriaFilme.join(',');
     await Filme.create({
       nomeFilme: nomeFilme,
-      categoriaFilme: categoriaFilme,
+      categoriaFilme: categoriasSelecionadas,
       fileFilme: fileFilme,
       anoFilme: anoFilme,
       descricaoFilme: descricaoFilme,

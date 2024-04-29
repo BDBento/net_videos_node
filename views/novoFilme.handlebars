@@ -6,55 +6,69 @@
         background-size: cover;
         header: 100hv;
     }
+
     .form-cadastro-filme {
         padding: 20px;
-        margin: 20px auto;
+        
         border-radius: 10px;
     }
+
     .form-cadastro-filme-titulo {
         text-align: center;
         margin: 20px auto;
         color: #fff;
     }
-    #categoriaFilme{
+
+    #categoriaFilme {
         width: 100%;
         padding: 10px;
         margin: 10px 0;
         border-radius: 5px;
     }
-    
+
+    .form-cadastro-filme-categoriaFilme {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin: 10px auto;
+    }
+    .form-cadastro-filme-nomeFilme {
+        margin: 10px auto;
+    }
 </style>
 
 <section class="container">
     <h2 class="form-cadastro-filme-titulo">Cadastro de Filmes</h2>
-    
+
 
     <div class="form-cadastro-filme">
-    <form action="/criaFilme" class="form-cadastro-card-filme" method="POST" enctype="multipart/form-data">
-        
-        <label for="nomeFilme" class="form-cadastro-filme">
-            <input type="text" name="nomeFilme" id="nomeFilme" placeholder="Nome">
-        </label>
+        <form action="/criaFilme" class="form-cadastro-card-filme" method="POST" enctype="multipart/form-data">
 
-        <label for="imagemFilme">Imagem do Filme:</label>
-        <input type="file" name="imagemFilme" id="imagemFilme" accept="image/*">
+            <div class="form-cadastro-filme-nomeFilme">
+                <label for="nomeFilme" class="form-cadastro-filme">
+                    <input type="text" name="nomeFilme" id="nomeFilme" placeholder="Nome">
+                </label>
+            </div>
 
-        <label for="categoriaFilme">Categoria:</label>
-        <select name="categoriaFilme" id="categoriaFilme">
-            {{#each categorias}}
-                <option value="{{genero}}">{{genero}}</option>
-            {{/each}}
-        </select>
+            <label for="imagemFilme"></label>
+            <input type="file" name="imagemFilme" id="imagemFilme" accept="image/*">
 
-        <label for="anoFilme" class="form-cadastro-filme">
-            <input type="date" name="anoFilme" id="anoFilme" placeholder="Ano">
-        </label>
+            <div class="form-cadastro-filme-categoriaFilme">
+                <label for="categoriaFilme">Categoria:</label>
+                {{#each categorias}}
+                <input type="checkbox" name="categoriaFilme[]" id="categoriaFilme-{{id}}" value="{{genero}}"> {{genero}}
+                {{/each}}
+            </div>
 
-        <label for="descricaoFilme" class="form-cadastro-filme">
-            <input type="text" name="descricaoFilme" placeholder="Descrição">
-        </label>
+            <label for="anoFilme" class="form-cadastro-filme">
+                <input type="date" name="anoFilme" id="anoFilme" placeholder="Ano">
+            </label>
 
-        <button class="botao-cadastro" type="submit">Cadastrar</button>
-    </form>
+            <label for="descricaoFilme" class="form-cadastro-filme">
+                <input type="text" name="descricaoFilme" placeholder="Descrição">
+            </label>
+
+            <button class="botao-cadastro" type="submit">Cadastrar</button>
+        </form>
     </div>
 </section>
