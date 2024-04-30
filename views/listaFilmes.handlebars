@@ -37,10 +37,7 @@
                         <td>{{anoFilme}}</td>
                         <td>{{descricaoFilme}}</td>
                         <td>
-                            <form action="/editaFilme/" method="POST" style="display: inline">
-                                <input type="hidden" name="id" value="{{id}}">
-                                <button type="submit" class="btn btn-primary">Editar</button>
-                            </form>
+                     
                             <form action="/deletarFilme" method="POST" style="display: inline">
                                 <input type="hidden" name="id" value="{{id}}">
                                 <button type="submit" class="btn btn-danger">Deletar</button>

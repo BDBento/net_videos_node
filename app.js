@@ -200,58 +200,6 @@ app.post('/deletarFilme', async (req, res) => {
 
 
 
-
-app.get('/editarCategoria/:id', async (req, res) => {
-  const categoriaId = req.params.id;
-
-  try {
-      // Busca a categoria com o ID especificado no banco de dados
-      const categoria = await Categoria.findByPk(categoriaId);
-
-      if (!categoria) {
-          return res.status(404).send('Categoria não encontrada');
-      }
-
-      console.log('Categoria encontrada:', categoria); // Verifica no console
-
-      // Renderiza o template 'editarCategoria' passando os dados da categoria
-      res.render('editarCategoria', { categoria });
-  } catch (error) {
-      console.error('Erro ao editar categoria:', error);
-      res.status(500).send('Erro ao editar categoria');
-  }
-});
-
-app.post('/editarCategoria/atualizarCategoria/:id', async (req, res) => {
-  const categoriaId = req.params.id;
-  const { genero, descricao, idUsuarioAtualizacao } = req.body;
-
-  try {
-      // Busca a categoria no banco de dados pelo ID
-      const categoria = await Categoria.findByPk(categoriaId);
-
-      if (!categoria) {
-          return res.status(404).send('Categoria não encontrada');
-      }
-
-      // Atualiza os campos da categoria com os novos valores
-      categoria.genero = genero;
-      categoria.descricao = descricao;
-      categoria.idUsuarioAtualizacao = idUsuarioAtualizacao;
-
-      // Salva as alterações no banco de dados
-      await categoria.save();
-
-      // Redireciona para a página de listagem de categorias após a atualização
-      res.redirect('/categorias');
-  } catch (error) {
-      console.error('Erro ao atualizar categoria:', error);
-      res.status(500).send('Erro ao atualizar categoria');
-  }
-
-});
-
-
 app.listen(8081, function () {
   console.log("http://localhost:8081/")
 });
