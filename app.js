@@ -107,7 +107,7 @@ app.get("/login", function (req, res) {
 }
 );
 
-app.get('/cadastroFilme', async (req, res) => {
+app.get('/cadastroFilme' ,auth, async (req, res) => {
   try {
 
     const categorias = await Categoria.findAll({ where: { excluido: false } });
@@ -120,6 +120,7 @@ app.get('/cadastroFilme', async (req, res) => {
   }
 
 });
+
 
 app.get('/cadastroCategoria', (req, res) => {
   res.render('novaCategoriaForm');
