@@ -1,30 +1,70 @@
 const express = require('express');
-const exphbs = require('express-handlebars');
-const app = express();
+const bodyParser = require('body-parser');
+const exphbs  = require('express-handlebars');
 const path = require('path');
+const multer = require('multer');
+const session = require('express-session'); // Importe o express-session
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+
+const Sequelize = require('sequelize');
+
+const sequelize = new Sequelize("filmes", "root", "", {
+  host: "localhost",
+  dialect: "mysql",
+});
+
+
+const authRoutes = require('./routes/auth');
+const privateRoutes = require('./routes/private');
+const auth = require('./middleware/auth');
 
 // Importando os models
 const Usuario = require('./models/Usuario');
 const Filme = require('./models/Filme');
 const Categoria = require('./models/Categoria');
 
-const multer = require('multer');
+// Configurando o express
+const app = express();
 
-const bodyParser = require('body-parser');
-
-
-// Define o diretório 'public' como o diretório para arquivos estáticos
-app.use(express.static('public'));
-
-//configuracao do handlebars
-//template engine
-app.engine('handlebars', exphbs());
+// Configurando o Handlebars como motor de visualização
+app.engine('handlebars', exphbs({
+  defaultLayout: 'main', // Layout padrão
+  layoutsDir: path.join(__dirname, 'views/layouts'), // Diretório dos layouts
+  partialsDir: path.join(__dirname, 'views/partials') // Diretório dos partials
+}));
 app.set('view engine', 'handlebars');
 
-//configuracao do body-parser
+// Configurando o diretório público para arquivos estáticos
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Configurando o BodyParser para analisar JSON
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Configurando sessões
+app.use(session({
+  secret: 'sua_chave_secreta', // Defina sua chave secreta
+  resave: false,
+  saveUninitialized: false,
+  store: new SequelizeStore({
+    db: sequelize // Supondo que você já configurou o Sequelize corretamente
+  })
+}));
+
+// Rotas públicas
+app.use('/auth', authRoutes);
+
+// Rotas privadas (necessitam autenticação)
+app.use('/private', auth, privateRoutes);
+
+
+// Rotas que necessitam de autenticação
+app.use('/cadastroFilme', auth, (req, res, next) => {
+  // Se o usuário estiver autenticado, permita o acesso
+  next();
+}, (req, res) => {
+  res.render('novoFilme');
+});
 
 
 
@@ -55,15 +95,17 @@ app.get('/', async (req, res) => {
   }
 });
 
-app.get("/login", async (req, res) =>{
-  res.render("login")
-});
 
 //rotas de cadastro
 
 app.get("/cadastro", function (req, res) {
   res.render("formulario")
 });
+
+app.get("/login", function (req, res) {
+  res.render("login")
+}
+);
 
 app.get('/cadastroFilme', async (req, res) => {
   try {
@@ -199,8 +241,8 @@ app.post('/deletarFilme', async (req, res) => {
 });
 
 
-
-app.listen(8081, function () {
-  console.log("http://localhost:8081/")
+const PORT = process.env.PORT || 8081;
+app.listen(PORT, () => {
+  console.log(`http://localhost:${PORT}`);
 });
 
